@@ -4,21 +4,17 @@
 # Fail immediately in case of errors and/or unset variables
 set -eu -o pipefail
 
-ERROR_PRONE_VERSION=2.3.1
-JAVAC_ARTEFACT_JAR="javac-9-dev-r4023-3.jar"
-REFASTER_ARTEFACT_JAR="error_prone_refaster-${ERROR_PRONE_VERSION}.jar"
-
-# Uncomment to download
-# wget "http://repo1.maven.org/maven2/com/google/errorprone/javac/9-dev-r4023-3/\
-# ${JAVAC_ARTEFACT_JAR}"
-# wget "http://repo1.maven.org/maven2/com/google/errorprone/error_prone_refaster/\
-# ${ERROR_PRONE_VERSION}/${REFASTER_ARTEFACT_JAR}"
-
-CLASSPATH="${REFASTER_ARTEFACT_JAR}:$(cat target/rules-classpath.txt)"
+CLASSPATH_FILE="target/rules-classpath.txt"
+if [ ! -f "${CLASSPATH_FILE}" ]; then
+  echo "No rules-classpath file, building the project."
+  mvn generate-sources --quiet
+fi
+CLASSPATH="$(cat ${CLASSPATH_FILE})"
 
 INPUT_FILENAME="$1"
 OUTPUT_FILENAME="$2"
 
+echo "Building the Refaster rule from ${INPUT_FILENAME}"
 javac \
     -J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
     -J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \
