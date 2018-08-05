@@ -6,7 +6,7 @@ templates.
 ## How to use
 
 ```bash
-./build-rule.sh /path/to/input-rule.java output-rule-name.refaster 
+./build-rule.sh /path/to/InputRule.java output-rule-name.refaster 
 ```
 
 Use the output Refaster rule file to produce a patch for your project. 
