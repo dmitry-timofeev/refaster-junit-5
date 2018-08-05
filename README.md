@@ -16,12 +16,8 @@ Currently this project includes a set of rules to migrate from `ExpectedExceptio
 2. [Maven 3.5+](https://maven.apache.org/download.cgi).
 
 ### Build a rule
-Clone this repository and run the script from the root directory:
-```bash
-./build-rule.sh /path/to/InputRule.java output-rule-name.refaster 
-```
-
-For example, to build the rule processing `ExpectedException`s:
+Clone this repository and run `build-rule.sh` script from the root directory
+to compile a rule. For example, to build the rule processing `ExpectedException`s:
 ```bash
 ./build-rule.sh src/main/java/dt/refaster/junit/ExpectedExceptionRule.java expected-exception.refaster
 ```
