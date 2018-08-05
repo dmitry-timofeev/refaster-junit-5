@@ -63,9 +63,6 @@ class ExpectedExceptionRule {
 		}
 	}
 
-	/**
-	 * Do not run it first if you match on exceptions.
-	 */
 	abstract static class ExpectedExceptionTrivialRule {
 
 		@Placeholder abstract void callUnderTest();
