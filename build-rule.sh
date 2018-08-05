@@ -18,14 +18,6 @@ OUTPUT_FILENAME="$2"
 
 echo "Building the Refaster rule from ${INPUT_FILE_PATH}"
 javac \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
-    -J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED \
-    -J--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
     -d target/classes \
     -classpath "${CLASSPATH}" \
     "-Xplugin:RefasterRuleCompiler --out $(pwd)/${OUTPUT_FILENAME}" \
