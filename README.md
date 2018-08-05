@@ -21,6 +21,11 @@ Clone this repository and run the script from the root directory:
 ./build-rule.sh /path/to/InputRule.java output-rule-name.refaster 
 ```
 
+For example, to build the rule processing `ExpectedException`s:
+```bash
+./build-rule.sh src/main/java/dt/refaster/junit/ExpectedExceptionRule.java expected-exception.refaster
+```
+
 ### Patch the target project
 Use the output Refaster rule file to produce a patch for your project. 
 You will need to enable [Error Prone](https://errorprone.info/docs/installation)
