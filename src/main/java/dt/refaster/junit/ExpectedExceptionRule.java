@@ -27,7 +27,7 @@ import com.google.errorprone.refaster.annotation.UseImportPolicy;
 import org.hamcrest.Matcher;
 import org.junit.rules.ExpectedException;
 
-@SuppressWarnings({"unused", "Convert2MethodRef"})  // These rules are compiled into refaster rules.
+@SuppressWarnings({"unused", "Convert2MethodRef"})  // These rules are compiled into Refaster rules.
 class ExpectedExceptionRule {
 
 	abstract static class ExpectedExceptionContainsMessageRule {

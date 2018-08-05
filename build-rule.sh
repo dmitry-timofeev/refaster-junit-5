@@ -13,10 +13,10 @@ if [ ! -f "${CLASSPATH_FILE}" ]; then
 fi
 CLASSPATH="$(cat ${CLASSPATH_FILE})"
 
-INPUT_FILENAME="$1"
+INPUT_FILE_PATH="$1"
 OUTPUT_FILENAME="$2"
 
-echo "Building the Refaster rule from ${INPUT_FILENAME}"
+echo "Building the Refaster rule from ${INPUT_FILE_PATH}"
 javac \
     -J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
     -J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \
@@ -29,4 +29,4 @@ javac \
     -d target/classes \
     -classpath "${CLASSPATH}" \
     "-Xplugin:RefasterRuleCompiler --out $(pwd)/${OUTPUT_FILENAME}" \
-    ${INPUT_FILENAME}
+    ${INPUT_FILE_PATH}
