@@ -72,6 +72,27 @@ class ExpectedExceptionRule {
 		}
 	}
 
+	abstract static class ExpectedExceptionMatchesExceptionRule {
+
+		@Placeholder abstract void callUnderTest();
+
+		@BeforeTemplate
+		void before(ExpectedException expectedException,
+				Matcher<? super Throwable> matcher) {
+			expectedException.expect(matcher);
+			callUnderTest();
+		}
+
+		@AfterTemplate
+		@UseImportPolicy(ImportPolicy.STATIC_IMPORT_ALWAYS)
+		void after(@SuppressWarnings("unused") ExpectedException rule,
+				Matcher<? super Throwable> matcher) {
+			Throwable t = assertThrows(Throwable.class,
+					() -> callUnderTest());
+			assertThat(t, matcher);
+		}
+	}
+
 	abstract static class ExpectedExceptionTrivialRule {
 
 		@Placeholder abstract void callUnderTest();
