@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+# Builds a Refaster rule from a Java template file.
+#
+# Usage: ./build-rule.sh path/to/InputRule.java output-rule-name.refaster
 
 # Fail immediately in case of errors and/or unset variables
 set -eu -o pipefail
@@ -24,6 +26,7 @@ javac \
     -J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
     -J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED \
     -J--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
+    -d target/classes \
     -classpath "${CLASSPATH}" \
     "-Xplugin:RefasterRuleCompiler --out $(pwd)/${OUTPUT_FILENAME}" \
     ${INPUT_FILENAME}
