@@ -1,0 +1,88 @@
+package dt.refaster.junit;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.google.errorprone.refaster.ImportPolicy;
+import com.google.errorprone.refaster.annotation.AfterTemplate;
+import com.google.errorprone.refaster.annotation.BeforeTemplate;
+import com.google.errorprone.refaster.annotation.Placeholder;
+import com.google.errorprone.refaster.annotation.UseImportPolicy;
+import org.hamcrest.Matcher;
+import org.junit.rules.ExpectedException;
+
+@SuppressWarnings({"unused", "Convert2MethodRef"})  // These rules are compiled into refaster rules.
+class ExpectedExceptionRule {
+
+	abstract static class ExpectedExceptionContainsMessageRule {
+
+		@Placeholder abstract void callUnderTest();
+
+		@BeforeTemplate
+		void before(ExpectedException rule,
+				Class<? extends Throwable> exceptionType,
+				String messageSubstring) {
+			rule.expectMessage(messageSubstring);
+			rule.expect(exceptionType);
+			callUnderTest();
+		}
+
+		@AfterTemplate
+		@UseImportPolicy(ImportPolicy.STATIC_IMPORT_ALWAYS)
+		void after(@SuppressWarnings("unused") ExpectedException rule,
+				Class<? extends Throwable> exceptionType,
+				String messageSubstring) {
+			Throwable t = assertThrows(exceptionType,
+					() -> callUnderTest());
+			assertThat(t.getMessage(), containsString(messageSubstring));
+		}
+	}
+
+	abstract static class ExpectedExceptionMatchesMessageRule {
+
+		@Placeholder abstract void callUnderTest();
+
+		@BeforeTemplate
+		void before(ExpectedException expectedException,
+				Class<? extends Throwable> exceptionType,
+				Matcher<String> matcher) {
+			expectedException.expectMessage(matcher);
+			expectedException.expect(exceptionType);
+			callUnderTest();
+		}
+
+		@AfterTemplate
+		@UseImportPolicy(ImportPolicy.STATIC_IMPORT_ALWAYS)
+		void after(@SuppressWarnings("unused") ExpectedException rule,
+				Class<? extends Throwable> exceptionType,
+				Matcher<String> matcher) {
+			Throwable t = assertThrows(exceptionType,
+					() -> callUnderTest());
+			assertThat(t.getMessage(), matcher);
+		}
+	}
+
+	/**
+	 * Do not run it first if you match on exceptions.
+	 */
+	abstract static class ExpectedExceptionTrivialRule {
+
+		@Placeholder abstract void callUnderTest();
+
+		@BeforeTemplate
+		void before(ExpectedException rule,
+				Class<? extends Throwable> exceptionType) {
+			rule.expect(exceptionType);
+			callUnderTest();
+		}
+
+		@AfterTemplate
+		@UseImportPolicy(ImportPolicy.STATIC_IMPORT_ALWAYS)
+		void after(@SuppressWarnings("unused") ExpectedException rule,
+				Class<? extends Throwable> exceptionType) {
+			assertThrows(exceptionType,
+					() -> callUnderTest());
+		}
+	}
+}
