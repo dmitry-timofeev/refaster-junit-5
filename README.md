@@ -3,7 +3,7 @@
 A collection of [Refaster](https://errorprone.info/docs/refaster) templates
 to migrate to JUnit 5.
 
-These templates augment the IDEA-built-in [refactorings][idea],
+These templates augment the IDEA-built-in [refactorings][idea]
 which do not work if a test class contains [`ExpectedException`](https://junit.org/junit4/javadoc/4.12/org/junit/rules/ExpectedException.html)
 rule (as of v2018.2).
 
