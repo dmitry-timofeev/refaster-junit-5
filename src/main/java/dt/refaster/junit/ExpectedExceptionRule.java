@@ -44,11 +44,20 @@ class ExpectedExceptionRule {
 		@Placeholder abstract void callUnderTest();
 
 		@BeforeTemplate
-		void before(ExpectedException expectedException,
+		void beforeMessageFirst(ExpectedException expectedException,
 				Class<? extends Throwable> exceptionType,
 				Matcher<String> matcher) {
 			expectedException.expectMessage(matcher);
 			expectedException.expect(exceptionType);
+			callUnderTest();
+		}
+
+		@BeforeTemplate
+		void beforeTypeFirst(ExpectedException expectedException,
+				Class<? extends Throwable> exceptionType,
+				Matcher<String> matcher) {
+			expectedException.expect(exceptionType);
+			expectedException.expectMessage(matcher);
 			callUnderTest();
 		}
 
