@@ -37,8 +37,9 @@ compiler and configure it to use your Refaster rule:
           <source>8</source>
           <target>8</target>
           <compilerArgs>
+            <!-- Enter the full path to the compiled Refaster rule below: -->
             <arg>-XepPatchChecks:refaster:/full/path/to/output-rule-name.refaster</arg>
-            <arg>-XepPatchLocation:/full/path/to/patch-directory</arg>
+            <arg>-XepPatchLocation:${project.basedir}</arg>
           </compilerArgs>
         </configuration>
         <dependencies>
