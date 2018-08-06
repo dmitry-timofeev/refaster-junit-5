@@ -64,8 +64,9 @@ Please note that it inherits most of 'maven-compiler-plugin' configuration from 
 
 ### Migrate other APIs
 
-Use IDEA built-in [refactoring][idea]
-to migrate JUnit 4 annotations and methods to JUnit 5 counterparts.
+Remove the `ExpectedException` rules from your test classes and then 
+run the IDEA built-in [refactoring][idea] to migrate JUnit 4 
+annotations and methods to JUnit 5 counterparts.
 
 [idea]: https://blog.jetbrains.com/idea/2017/11/intellij-idea-2017-3-junit-support/
 [assert-throws]: https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/Assertions.html#assertThrows(java.lang.Class,org.junit.jupiter.api.function.Executable)
