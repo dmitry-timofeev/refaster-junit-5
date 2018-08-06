@@ -8,7 +8,7 @@ set -eu -o pipefail
 
 CLASSPATH_FILE="target/rules-classpath.txt"
 if [ ! -f "${CLASSPATH_FILE}" ]; then
-  echo "No rules-classpath file, building the project."
+  echo "[INFO] No rules-classpath file, building the project."
   mvn generate-sources --quiet
 fi
 CLASSPATH="$(cat ${CLASSPATH_FILE})"
@@ -16,7 +16,7 @@ CLASSPATH="$(cat ${CLASSPATH_FILE})"
 INPUT_FILE_PATH="$1"
 OUTPUT_FILENAME="$2"
 
-echo "Building the Refaster rule from ${INPUT_FILE_PATH}"
+echo "[INFO] Building the Refaster rule from ${INPUT_FILE_PATH}"
 javac \
     -d target/classes \
     -classpath "${CLASSPATH}" \
