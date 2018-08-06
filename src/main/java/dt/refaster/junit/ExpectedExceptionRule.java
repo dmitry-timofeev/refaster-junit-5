@@ -22,9 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.google.errorprone.refaster.ImportPolicy;
 import com.google.errorprone.refaster.annotation.AfterTemplate;
 import com.google.errorprone.refaster.annotation.BeforeTemplate;
+import com.google.errorprone.refaster.annotation.MayOptionallyUse;
 import com.google.errorprone.refaster.annotation.Placeholder;
 import com.google.errorprone.refaster.annotation.UseImportPolicy;
 import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.rules.ExpectedException;
 
 @SuppressWarnings({"unused", "Convert2MethodRef"})  // These rules are compiled into Refaster rules.
@@ -126,5 +128,28 @@ class ExpectedExceptionRule {
 			assertThrows(exceptionType,
 					() -> callUnderTest());
 		}
+	}
+
+	static abstract class TryMatchException<T extends Throwable> {
+
+		@BeforeTemplate
+		void before() {
+			try {
+				callUnderTest();
+				Assert.fail();
+			} catch (Throwable actual) {
+				checkActuallyThrown(actual);
+			}
+		}
+
+		@AfterTemplate
+		void after() {
+			Throwable actual = assertThrows(Throwable.class, () -> callUnderTest());
+			checkActuallyThrown(actual);
+		}
+
+		@Placeholder abstract void callUnderTest();
+
+		@Placeholder abstract void checkActuallyThrown(@MayOptionallyUse Throwable actual);
 	}
 }
