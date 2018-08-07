@@ -1,7 +1,8 @@
 # refaster-junit
 
 A collection of [Refaster](https://errorprone.info/docs/refaster) templates
-to migrate to JUnit 5.
+to migrate to JUnit 5. **It is [superseded](https://github.com/google/error-prone/commit/42a9a65f103ec1b691b22a0afebee5305a6cd312) 
+by built-in Error Prone refactorings, see example configuration below.** 
 
 These templates augment the IDEA-built-in [refactorings][idea]
 which do not work if a test class contains [`ExpectedException`](https://junit.org/junit4/javadoc/4.12/org/junit/rules/ExpectedException.html)
@@ -9,6 +10,41 @@ rule (as of v2018.2).
 
 Currently this project includes a set of rules to migrate from `ExpectedException` to 
 [`assertThrows`][assert-throws].
+
+## Use built-in Error Prone refactorings
+```xml
+<plugins>
+  <plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.0</version>
+    <configuration>
+      <compilerId>javac-with-errorprone</compilerId>
+      <showWarnings>true</showWarnings>
+      <forceJavacCompilerUse>true</forceJavacCompilerUse>
+      <source>${java.compiler.source}</source>
+      <target>${java.compiler.target}</target>
+      <compilerArgs>        
+        <arg>-XepPatchChecks:TryFailRefactoring,ExpectedExceptionRefactoring,TestExceptionRefactoring</arg>
+        <arg>-XepPatchLocation:${project.basedir}</arg>
+      </compilerArgs>
+    </configuration>
+    <dependencies>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-compiler-javac-errorprone</artifactId>
+        <version>2.8.3</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_core</artifactId>
+        <!-- 2.3.2 is not live at the moment! -->
+        <version>2.3.2-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </plugin>
+</plugins>
+```
+For up-to-date info, visit http://errorprone.info/bugpatterns
 
 ## How to use
 ### Prerequisites
